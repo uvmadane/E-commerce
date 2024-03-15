@@ -16,7 +16,6 @@ const Register = () => {
   })
 
   const [error, setError] = useState([])
-  // const router = useRouter();
   const navigate =useNavigate();
 
   const handleChange = (e)=>{
@@ -44,7 +43,6 @@ const Register = () => {
       if (response.status===200) {
         console.error("Registration successfully ")
         setError("Registration successful")
-        // router.push('/')
         navigate('/login')
       } else {
         setError("Login failed "+ data.error)
