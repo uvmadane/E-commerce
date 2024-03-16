@@ -10,6 +10,7 @@ import Footer from './Components/Footer/Footer';
 import img2 from './Components/Assets/2.jpg'
 import Register from './Pages/Register';
 import Login from './Pages/Login';
+import AddProduct from './Pages/AddProduct';
 
 function App() {
   return (
@@ -21,10 +22,10 @@ function App() {
       <Route path='/mens' element={<ShopCategory banner={img2} category="Category A"/>}/>
       <Route path='/womens' element={<ShopCategory banner={img2} category="Category C"/>}/>
       <Route path='/kids' element={<ShopCategory banner={img2} category="Category B"/>}/>
-      <Route path='/product' element={<Product/>}/>
       <Route path='/product/:id' element={<Product/>}/>
       <Route path='/cart' element={<Cart/>}/>
       <Route path='/login' element={<Login/>}/>
+      <Route path='/addproduct' element={<AddProduct/>}/>
       <Route path='/register' element={<Register/>}/>
 
     </Routes>

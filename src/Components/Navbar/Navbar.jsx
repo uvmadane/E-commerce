@@ -14,14 +14,14 @@ const Navbar = () => {
       const data = JSON.parse(loginInfo)
       setUserData(data)
     }
-  },[localStorage.getItem("ShopUser")])
-  
-  const navigate = useNavigate(); 
-  const logout =()=>{
+  }, [localStorage.getItem("ShopUser")])
+
+  const navigate = useNavigate()
+  const logout = () => {
     localStorage.removeItem("ShopUser")
-    setUserData('')
+    setUserData("")
     // Navigate("/")
-    navigate('/')
+    navigate("/")
   }
   console.log(userData)
   const [menu, setMenu] = useState("shop")
@@ -75,7 +75,16 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="nav-login-cart">
-        {userData?.status!==true ? <Link to="/login"><button>Login</button></Link> :  <button onClick={logout}>Logout</button>}
+        {userData?.status !== true ? (
+          <div>
+          <Link to="/login"><button>Login</button></Link>
+          </div>
+        ) : (
+          <div>
+          <Link to="/addproduct"><button>Add Product</button></Link>
+          <button onClick={logout}>Logout</button>
+          </div>
+        )}
         <Link to="/cart">
           <img src={cartIcon} className="img1" alt="" height={100} />
         </Link>

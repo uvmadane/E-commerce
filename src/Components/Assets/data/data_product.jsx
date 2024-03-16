@@ -10,7 +10,7 @@ const data_product=[
       "id": 1,
       "name": "Product 1",
       "category": "Category A",
-      "image": img1,
+      "image": [img1,img2,img3,img4],
       "new_price": 19.99,
       "old_price": 24.99
     },

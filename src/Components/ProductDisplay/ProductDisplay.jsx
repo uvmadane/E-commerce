@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import "./ProductDisplay.css"
 import { ShopContext } from "../../Context/ShopContext"
 import star from '../Assets/star.png'
@@ -6,7 +6,10 @@ import star from '../Assets/star.png'
 const ProductDisplay = (props) => {
   const {product} = props
   const {addToCart}=useContext(ShopContext)
+  const [mainImage, setMainImage] = useState(product.image[0]);
+
   useEffect(() => {
+    console.log(product)
     // window.scrollTo(0, 0);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [product]);
@@ -14,13 +17,22 @@ const ProductDisplay = (props) => {
     <div className="productDisplay">
       <div className="productDisplay-left">
         <div className="productDisplay-img-list">
-          <img src={product.image} alt="i" />
-          <img src={product.image} alt="i" />
-          <img src={product.image} alt="i" />
-          <img src={product.image} alt="i" />
+        {product.image.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`thumbnail-${index}`}
+              onClick={() => setMainImage(image)}
+            />
+          ))}
         </div>
         <div className="productDisplay-img">
-          <img className="productDisplay-main-img" src={product.image} alt="" />
+          {/* <img className="productDisplay-main-img" src={product.image} alt="" /> */}
+          <img
+            className="productDisplay-main-img"
+            src={mainImage}
+            alt="main-product-image"
+          />
         </div>
       </div>
 
@@ -35,10 +47,10 @@ const ProductDisplay = (props) => {
         </div>
         <div className="productDisplay-right-prices">
           <div className="productDisplay-right-price-old">
-            ${product.old_price}
+          ₹ {product.old_price}
           </div>
           <div className="productDisplay-right-price-new">
-            ${product.new_price}
+          ₹ {product.new_price}
           </div>
         </div>
         <div className="productDisplay-right-descrption">
