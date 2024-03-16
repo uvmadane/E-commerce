@@ -4,7 +4,6 @@ import { BASE_URL } from "../config"
 import { Link } from "react-router-dom"
 import { useNavigate} from "react-router"
 
-
 const AddProduct = () => {
     const [formData, setFormData] = useState({
     name: "",
@@ -29,37 +28,46 @@ const [error, setError] = useState([])
     }))
   }
   const handleFileChange = (e) => {
-    const files = e.target.files;
+    const files = Array.from(e.target.files);
     setFormData((prevData) => ({
       ...prevData,
       images: files,
     }));
   };
-  const login = async (e) => {
-    e.preventDefault()
-    setError('')
+  const addProductCall = async (e) => {
+    e.preventDefault();
+    setError('');
     try {
-      const response = await fetch(BASE_URL + "addProduct", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
-      const data = await response.json()
-
-      if (response.status===200) {
-        console.error("Registration successfully ")
-        setError("Registration successful")
-        navigate('/login')
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('category', formData.category);
+      formDataToSend.append('quantity', formData.quantity);
+      formDataToSend.append('new_price', formData.new_price);
+      formDataToSend.append('old_price', formData.old_price);
+      formData.images.forEach((image, index) => {
+        formDataToSend.append('images', image);
+      });
+      
+  
+      const response = await fetch(BASE_URL + 'addProduct', {
+        method: 'POST',
+        body: (formDataToSend),
+      });
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log('Product added successfully');
+        setError('Product added successfully');
+        // navigate('/');
       } else {
-        setError("Login failed "+ data.error)
+        setError('Failed to add product: ' + data.error);
       }
     } catch (error) {
-      console.error("An error occurred during login:", error)
-      setError("An error occurred. Please try again.")
+      console.error('An error occurred during login:', error);
+      setError('An error occurred. Please try again.');
     }
-  }
+  };
+  
   return (
     <div className="loginSignUp">
       <div className="loginSignUp-container">
@@ -104,9 +112,9 @@ const [error, setError] = useState([])
           />
             <input
               type="file"
-              onChange={handleFileChange }
+              onChange={handleFileChange}
               multiple
-              accept="image/png, image/gif, image/jpeg"
+            //   accept="image/png, image/gif, image/jpeg"
             />
           {/* <input
             required
@@ -118,7 +126,7 @@ const [error, setError] = useState([])
           /> */}
         </div>
         {error && <div className="text-danger">{error}</div>}
-        <button onClick={login}>Continue</button>
+        <button onClick={addProductCall}>Add Product</button>
         <Link to="/login" style={{ textDecoration: "none" }}>
           <p className="loginSignUp-login">
             Already have an account? <span>Login</span>

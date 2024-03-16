@@ -4,9 +4,10 @@ const jwt=require('jsonwebtoken')
 
 // Check if you are providing a valid DATABASE_URL here
 
-const port= process.env.PORT || 3030;
+const port= process.env.PORT || 3040;
 const cors=require('cors')
 const userRoutes = require('./router/userRoute');
+const productRoute = require("./router/productRoute")
 const app = express();
 
 app.use(express.json());
@@ -26,6 +27,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/MongoProject', {
 
 // Use routes
 app.use('/', userRoutes);
+app.use("/",productRoute);
 
 // Start the server
 
