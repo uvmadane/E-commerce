@@ -1,5 +1,5 @@
 import React from 'react'
-import arrow_icon from '../Assets/2.jpg'
+import arrow_icon from '../Assets/greater-than-sign-icon.jpg'
 import './Breadcrum.css'
 
 const Breadcrum = (props) => {

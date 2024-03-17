@@ -2,72 +2,71 @@ import React, { useEffect, useState } from "react"
 import "./Css/LoginSignup.css"
 import { BASE_URL } from "../config"
 import { Link } from "react-router-dom"
-import { useNavigate} from "react-router"
+import { useNavigate } from "react-router"
 
 const AddProduct = () => {
-    const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     category: "",
     new_price: "",
     old_price: "",
-    images:[]
-})
+    images: [],
+  })
 
-useEffect(()=>{
+  useEffect(() => {
     console.log(formData)
-},[formData])
-const [error, setError] = useState([])
-  const navigate =useNavigate();
+  }, [formData])
+  const [error, setError] = useState([])
+  const navigate = useNavigate()
 
-  const handleChange = (e)=>{
-    const {name , value}= e.target
+  const handleChange = (e) => {
+    const { name, value } = e.target
 
-    setFormData((prevData)=>({
-       ...prevData,
-       [name]:value 
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
     }))
   }
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files)
     setFormData((prevData) => ({
       ...prevData,
       images: files,
-    }));
-  };
+    }))
+  }
   const addProductCall = async (e) => {
-    e.preventDefault();
-    setError('');
+    e.preventDefault()
+    setError("")
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('category', formData.category);
-      formDataToSend.append('quantity', formData.quantity);
-      formDataToSend.append('new_price', formData.new_price);
-      formDataToSend.append('old_price', formData.old_price);
+      const formDataToSend = new FormData()
+      formDataToSend.append("name", formData.name)
+      formDataToSend.append("category", formData.category)
+      formDataToSend.append("quantity", formData.quantity)
+      formDataToSend.append("new_price", formData.new_price)
+      formDataToSend.append("old_price", formData.old_price)
       formData.images.forEach((image, index) => {
-        formDataToSend.append('images', image);
-      });
-      
-  
-      const response = await fetch(BASE_URL + 'addProduct', {
-        method: 'POST',
-        body: (formDataToSend),
-      });
-      const data = await response.json();
-  
+        formDataToSend.append("images", image)
+      })
+
+      const response = await fetch(BASE_URL + "addProduct", {
+        method: "POST",
+        body: formDataToSend,
+      })
+      const data = await response.json()
+
       if (response.ok) {
-        console.log('Product added successfully');
-        setError('Product added successfully');
+        console.log("Product added successfully")
+        setError("Product added successfully")
         // navigate('/');
       } else {
-        setError('Failed to add product: ' + data.error);
+        setError("Failed to add product: " + data.error)
       }
     } catch (error) {
-      console.error('An error occurred during login:', error);
-      setError('An error occurred. Please try again.');
+      console.error("An error occurred during login:", error)
+      setError("An error occurred. Please try again.")
     }
-  };
-  
+  }
+
   return (
     <div className="loginSignUp">
       <div className="loginSignUp-container">
@@ -80,13 +79,25 @@ const [error, setError] = useState([])
             value={formData.name}
             onChange={handleChange}
           />
-          <input
+          {/* <input
             type="text"
             name="category"
             placeholder="category No"
             value={formData.category}
             onChange={handleChange}
-          />
+          /> */}
+          <select
+            name="category"
+            id=""
+            value={formData.category}
+            onChange={handleChange}
+          >
+            <option value="">Select Category of product</option>
+            <option value="men">Mens</option>
+            <option value="women">Women</option>
+            <option value="kids">Kids</option>
+            {/* <option value="men"></option> */}
+          </select>
           <input
             type="text"
             name="quantity"
@@ -110,12 +121,12 @@ const [error, setError] = useState([])
             value={formData.old_price}
             onChange={handleChange}
           />
-            <input
-              type="file"
-              onChange={handleFileChange}
-              multiple
+          <input
+            type="file"
+            onChange={handleFileChange}
+            multiple
             //   accept="image/png, image/gif, image/jpeg"
-            />
+          />
           {/* <input
             required
             type="password"
