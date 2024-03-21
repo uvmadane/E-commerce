@@ -5,7 +5,6 @@ const jwt=require('jsonwebtoken')
 // Check if you are providing a valid DATABASE_URL here
 
 
-
 const port= process.env.PORT || 3040;
 const cors=require('cors')
 const userRoutes = require('./router/userRoute');
