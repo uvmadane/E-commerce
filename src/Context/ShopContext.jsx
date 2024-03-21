@@ -1,17 +1,21 @@
 import React, { createContext, useState } from "react"
-import all_product from "../Components/Assets/data/all_product"
+// import all_product from "../Components/Assets/data/all_product"
+import FetchData from "../Pages/FetchData"
 
 export const ShopContext = createContext(null)
 
+const ShopContextProvider = (props) => {
+  const {data} =FetchData();
+
+  
 const getDefaultCart = () => {
   let cart = {}
-  for (let index = 0; index < all_product.length + 1; index++) {
+  for (let index = 0; index < data.length + 1; index++) {
     cart[index] = 0;
   }
   return cart
 }
 
-const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState(getDefaultCart())
 
   const addToCart = (itemId) => {
@@ -26,7 +30,7 @@ const ShopContextProvider = (props) => {
     for (const item in cartItems) {
       console.log("er",item)
       if (cartItems[item] > 0) {
-        let itemInfo = all_product.find(
+        let itemInfo = data.find(
           (product) => product.id === Number(item)
         )
         totalAmount += itemInfo.new_price * cartItems[item];
@@ -48,7 +52,7 @@ const ShopContextProvider = (props) => {
   const contextValue = {
     getTotalCartItems,
     getTotalCartAmount,
-    all_product,
+    data,
     cartItems,
     addToCart,
     removeFromCart,

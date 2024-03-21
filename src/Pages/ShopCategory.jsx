@@ -2,10 +2,9 @@ import React, { useContext } from "react"
 import "./Css/ShopCategory.css"
 import {ShopContext} from "../Context/ShopContext"
 import Item from "../Components/Item/Item"
-// import all_product from '../Components/Assets/data/all_product'
 const ShopCategory = (props) => {
-  const  {all_product}  = useContext(ShopContext)
-  if (!all_product) {
+  const  {data}  = useContext(ShopContext)
+  if (!data) {
     // Handle loading state or fallback
     return <div>Loading...</div>;
   }
@@ -22,16 +21,16 @@ const ShopCategory = (props) => {
         </div>
       </div>
       <div className="shopcategory-products">
-        {all_product.map((item, i) => {
+        {data.map((item, i) => {
           if (props.category === item.category) {
             return (
               <Item
                 key={i}
-                id={item.id}
+                id={item?._id}
                 name={item.name}
-                image={item.image}
-                new_price={item.new_price}
-                old_price={item.old_price}
+                image={item?.images[0]}
+                new_price={item?.new_price}
+                old_price={item?.old_price}
               />
             )
           } else {

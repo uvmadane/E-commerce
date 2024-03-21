@@ -5,7 +5,7 @@ const mongoose = require("mongoose")
 const fs = require("fs")
 
 // Define fixed destination path for uploaded files
-const destinationPath = path.join("./", "./uploads")
+const destinationPath = path.join(".", "uploads")
 
 if (!fs.existsSync(destinationPath)) {
   fs.mkdirSync(destinationPath, { recursive: true })
@@ -48,7 +48,7 @@ exports.addProduct = async (req, res) => {
 
       // Extract image paths from the uploaded image files
       const images = req.files["images"]
-        ? req.files["images"].map((file) => file.path)
+        ? req.files["images"].map((file) => file.path.replace(/\\/g, "/"))
         : []
 
       // Create a new product instance with the extracted data
@@ -79,6 +79,28 @@ exports.getAllProduct = async (req, res) => {
 
     console.log(product)
 
+    res.status(200).json({ product, message: "Product retrieved successfully" })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Server error" })
+  }
+}
+// Import necessary modules
+
+// Define your controller function
+exports.getProductById = async (req, res) => {
+  try {
+    const id = req.params.id // Assuming the product ID is passed in the request params
+
+    // Fetch the product from the database using the Product model
+    const product = await addProduct.findById(id)
+
+    // Check if the product exists
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" })
+    }
+
+    // If the product exists, return it
     res.status(200).json({ product, message: "Product retrieved successfully" })
   } catch (error) {
     console.error(error)

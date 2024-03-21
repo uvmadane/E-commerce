@@ -9,6 +9,8 @@ const cors=require('cors')
 const userRoutes = require('./router/userRoute');
 const productRoute = require("./router/productRoute")
 const app = express();
+app.use("/uploads", express.static('uploads'));
+
 
 app.use(express.json());
 app.use(cors());
